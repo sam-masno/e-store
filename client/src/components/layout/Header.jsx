@@ -22,7 +22,11 @@ const Header = ({auth, user}) => {
         </li>
     )   :   (
         <li className="nav-item mr-2 text-white">
-            <Link to="/dashboard" className={active('/dashboard')}>Dashboard</Link>
+            <Link to="/dashboard" className="btn btn-info">
+                <span className="fas fa-user"></span>
+                {' '}
+                Dashboard
+            </Link>
         </li>
     )
 
@@ -32,13 +36,11 @@ const Header = ({auth, user}) => {
                 <Fragment>
                                         
                     {<Dashboard />}
-
                     <li className="nav-item mr-2 text-white">
-                        <Link to="/" className={active('/')}>Home</Link>
-                    </li>
-
-                    <li className="nav-item mr-2 text-white">
-                        <Link to="/logout" className={active('/logout')}>Sign out</Link>
+                        <Link to="/logout" className={`btn btn-danger`}>
+                        <span className="fas fa-sign-out-alt"></span>
+                            Sign out
+                        </Link>
                     </li>
 
                 </Fragment>
@@ -47,15 +49,19 @@ const Header = ({auth, user}) => {
         else{
             return (
                 <Fragment>
-
-                    <li className="nav-item mr-2 text-white">
-                        <Link to="/" className={active('/')}>Home</Link>
-                    </li>
                     <li className="nav-item mr-2">
-                        <Link to="/signup" className={active('/signup')}>Sign Up</Link>
+                        <Link to="/signup" className={`btn btn-danger`}>
+                            <span className="fas fa-user-plus"></span>
+                            {' '}
+                            Sign Up
+                        </Link>
                     </li>
                     <li className="nav-item mr-2 text-white">
-                        <Link to="/signin" className={active('/signin')}>Sign In</Link>
+                        <Link to="/signin" className={`btn btn-info`}>
+                        <span className="fas fa-sign-in-alt"></span>
+                        {' '}
+                            Sign In
+                        </Link>
                     </li>
                     
                 </Fragment>      
@@ -73,7 +79,7 @@ const Header = ({auth, user}) => {
             </button>
 
             <div className="collapse navbar-collapse" id="navbarColor01">
-                <ul className="navbar-nav mr-auto">
+                <ul className="navbar-nav ml-auto mr-2">
                     <Links />
                 </ul>
                 <CartButton />

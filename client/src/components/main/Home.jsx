@@ -8,15 +8,14 @@ import { Product, Newest, Sellers, CategoryList } from 'components/main/homeComp
 const Home = () => {
     const [products, setProducts] = useState([])
     const [category, setCategory] = useState('');
-    const [price, setPrice] = useState(50.00)
-    const [message, setMessage] = useState('Browse by category')
+    const [message, setMessage] = useState('Select')
+    
     useEffect(() => {
         if(category) {
             browse(category, (err, data) => {
                 if(err) {
                     setMessage('No products found');
                     return setProducts([])
-                    console.log(data)
                 }
                 setProducts(data);
                 // console.log(data)
@@ -28,13 +27,11 @@ const Home = () => {
     const handleCategory = (event) => {
         setCategory(event.target.value)
     }
-    const handlePrice = event => {
-        setPrice(event.target.value)
-    }
+
 
     return (
         <div>
-            <Layout title={"MERN E-Store"} description={"Buy stuff here"} className="py-0">
+            <Layout title={"E-Store"} description={"Buy stuff here"} className="py-0">
             <section id="new-releases" className="">
                 <div className="container py-5">
                     {/* SORTED BY CREATEDAT */}
@@ -50,30 +47,24 @@ const Home = () => {
             <section id="browse" className="py-5">
                 {/* SELECT CATEGORY AND FILTER BY MAX PRICE */}
                 <div className="container">
-                    <div className="row">
-                        <div className="col-12 col-md-4">
-                            <CategoryList handleCategory={handleCategory}/>
-                            <div className="form-group">
-                                <label htmlFor="price">Max Price</label>
-                                <div className="form-group-prepend">
-                                    <div className="form-group-text">
+                    <div className="row home-section">
 
-                                    </div>
-                                </div>
-                                <input type="number" min={1} value={price} onChange={handlePrice} className="form-control"/>
-                            </div>
+                        <div className="col-12 col-md-6 offset-md-3 text-center">
+                            <h3>Browse By Category </h3>
+                            <CategoryList 
+                                handleCategory={handleCategory} 
+                            />
                         </div>
-                        {/* HEADING FOR BROWSE SECTION  */}
                         {!products.length && (
-                            <div className=" col text-center">
-                                <h3 className="text-center">{ message }</h3>
-                            </div>
+                                <div className="col-12">
+                                    <h3 className="text-center">E-store.com</h3>
+                                </div>
+                                
                             )
                         }
 
                         {/* PRODUCT RESULTS */}
                         { products
-                        .filter(product => product.price <= price )
                         .map(product => <Product key={product._id} product={product} /> )}
 
                     </div>

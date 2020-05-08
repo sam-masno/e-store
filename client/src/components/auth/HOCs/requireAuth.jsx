@@ -10,7 +10,7 @@ export default (ChildComponent) => {
         let history = useHistory();
         useEffect(() => {
             if(!props.auth) {
-                history.push('/');
+                history.push('/signin');
             }
         }, [props])
 

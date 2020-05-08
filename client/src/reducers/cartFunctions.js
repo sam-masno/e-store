@@ -12,7 +12,8 @@ const clone = obj => {
 export const getTotalWithTax = (cart ) => {
     const cartWithTotalAndTax = clone(cart);
     const taxRate = 1.1;
-    cartWithTotalAndTax.total = cart.items.reduce((sum, item) => sum += (item.price * item.count), 0) * taxRate;
+    let total = cart.items.reduce((sum, item) => sum += (item.price * item.count), 0) * taxRate;
+    cartWithTotalAndTax.total = Number.parseFloat(total).toFixed(2);
     return cartWithTotalAndTax;
 
 }

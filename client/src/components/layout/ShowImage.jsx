@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { API_ROUTE } from 'config';
 
 import { getImage } from 'services/products';
 
@@ -18,7 +17,6 @@ const ShowImage = ({item, url }) => {
 
         return () => mnt = false
     },[]) 
-    // console.log(img)
 
     if(!src) return <div></div>
     return (

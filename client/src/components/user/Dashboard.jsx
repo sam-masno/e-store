@@ -31,13 +31,13 @@ const Dashboard = ({ user: {name, email, about, _id } }) => {
         <div className="card mb-3 col-12 col-md-8 px-0 mx-auto">
             <ul className="nav justify-content-center">
                 <li className="nav-item">
-                    <Link to="/cart" className="nav-link ">My Cart</Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/update/profile" className="nav-link ">Update Profile</Link>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link " href="#">Purchase History</a>
+                    <Link to="/cart" className="nav-link ">
+                        <h3 className="text-danger">
+                            <span className="text-danger fas fa-shopping-cart"></span>
+                            {' '}
+                            Go To Cart
+                        </h3>
+                    </Link>
                 </li>
             </ul>
         </div>        

@@ -11,8 +11,11 @@ const ProductLayout = ({
         <div>
             <div className="jumbotron d-flex bg-primary text-white" style={{borderRadius: 0}}>
                 <div className="container">
-                    <h2>{ title }</h2>
-                    <p className="lead">{ description }</p>
+                    <div className="text-center">
+                        <h2>{ title }</h2>
+                        <p className="lead">{ description }</p>
+                    </div>
+                    
                 </div>                
             </div>
             <div className={ className }>

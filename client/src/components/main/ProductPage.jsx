@@ -80,16 +80,23 @@ const ProductPage = ({}) => {
     );
 }
 
-const AddButton = connectCart(({product, addItem, cart:{items}}) => {
-    const count = items.filter(item => item._id === product._id)[0].count
+const AddButton = connectCart(({product, addItem, cart}) => {
+    const [count, setCount] = useState(null);
+    useEffect(() => {
+        let mnt = true;
+        let current = cart.items.filter((item) => item._id === product._id);
+        if(current.length && mnt) setCount(current[0].count)
+
+        return () => mnt = false;
+    },[cart.items] )    
+
     const handleAdd = () => {
         addItem(product)
     }
 
     return (
         <button type="button" className="btn btn-danger btn-lg btn-block" onClick={handleAdd} >
-            { count !== 0 && <sup><span className="badge badge-warning">{ count }</span></sup>}
-            <span className="fas fa-shopping-cart fa-lg text-white"></span>
+            <span className="badge badge-warning"> { count || 0 } </span>
             {' '}
             Add to Cart
         </button>

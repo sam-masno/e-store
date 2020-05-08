@@ -35,7 +35,7 @@ const Cart = ({ cart: { items, total, count } }) => {
                     { count !== 0 && (
                             <Fragment>
                                 <li className="list-group-item">
-                                    <h5>Total: ${ total } </h5>
+                                    <h5>Total with tax: ${ total } </h5>
                                 </li>
                                 <li className="list-group-item">
                                     <Link to="/checkout" className="btn btn-danger btn-lg btn-block"> 

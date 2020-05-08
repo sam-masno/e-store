@@ -1,4 +1,3 @@
-import {  API_ROUTE } from 'config';
 import axios from 'axios';
 
 // BT FLOW:
@@ -7,7 +6,7 @@ import axios from 'axios';
 //SEND PAYMENT NONCE AND AMOUNT TO BACKEND, HANDLE IN CALLBACK
 export const getPaymentToken = async (userId, next) => {
     try {
-        const token = await axios.get(`${API_ROUTE}/api/pay/token/${userId}`);
+        const token = await axios.get(`/api/pay/token/${userId}`);
         return next(false, token.data)
     } catch (error) {
         if(error.response) return next(error.response.data.messsage);
@@ -17,7 +16,7 @@ export const getPaymentToken = async (userId, next) => {
 
 export const sendPayment = async (id, nonce, amount, next) => {
     try {
-        const res = await  axios.post(`${API_ROUTE}/api/pay/submit/${id}`, { paymentMethodNonce: nonce, amount });
+        const res = await  axios.post(`/api/pay/submit/${id}`, { paymentMethodNonce: nonce, amount });
         return next(false, res.data)
     } catch (error) {
         if(error.response.data.message) return next(error.response.data.messsage);

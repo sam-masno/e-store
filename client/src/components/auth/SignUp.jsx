@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import Layout from 'components/layout/Layout';
 import hideAuth from 'components/auth/HOCs/hideAuth';
+import { Spinner } from 'components/layout/layoutComponents';
 
 //utils
 import { signup } from 'services';
@@ -50,14 +51,17 @@ const SignUp = ({ setAuth, setUser }) => {
             <Layout title="Sign up" description="Open an account and start shopping today." className="container py-2">
                 <form onSubmit={handleSubmit} onChange={handleChange}>
                     <p className="text-center lead">Already have an account? <Link to="/signin">Sign in here</Link></p>
-                    <div className="row">
+                    <div className="row py-5">
                         <div className="col col-md-6 mx-auto card py-3">
                             <div className="card-content">
                                 { <NameInput name={name} handleChange={handleChange} /> }
                                 { <EmailInput email={ email } handleChange={ handleChange } /> }
                                 { <Passwords password={password} password2={password2} handleChange={handleChange} /> }    
                                 { error && <div className="alert alert-danger">{ error } </div> } 
-                                <p className="text-info lead">{ loading && `Loading...`}</p>                         
+                                <div className="text-center py-2">
+                                { loading && <Spinner color="info"/>}                        
+
+                                </div>
                                 <button className="btn btn-block btn-primary btn-lg" type="submit">Create Account</button>
                             </div>
                             

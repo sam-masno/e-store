@@ -59,3 +59,9 @@ const Add = ({cart, addItem, product }) => {
 }
 
 export const AddButton = connectCart(Add);
+
+export const Spinner = ({color}) => (
+    <div className={`spinner-grow text-${color} ` }role="status">
+        <span className="sr-only">Loading...</span>
+    </div>
+)
