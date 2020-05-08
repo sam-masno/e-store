@@ -1,0 +1,1 @@
+export default ["Not processed", "Processing", "Shipped", "Delivered", "Canceled"]
