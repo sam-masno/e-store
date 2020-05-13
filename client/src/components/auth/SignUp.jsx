@@ -50,7 +50,7 @@ const SignUp = ({ setAuth, setUser }) => {
         <div>
             <Layout title="Sign up" description="Open an account and start shopping today." className="container py-2">
                 <form onSubmit={handleSubmit} onChange={handleChange}>
-                    <p className="text-center lead">Already have an account? <Link to="/signin">Sign in here</Link></p>
+                    <p className="text-center lead">Already have an account? <Link to="/signin" className="text-info">Sign in here</Link></p>
                     <div className="row py-5">
                         <div className="col col-md-6 mx-auto card py-3">
                             <div className="card-content">

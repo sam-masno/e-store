@@ -1,64 +1,47 @@
 const Category = require('../models/category');
 const Product = require('../models/product');
-const { sendError } = require('../helpers');
+const { asyncHandler } = require('../helpers');
 
-exports.create = async (req, res, next) => {
+//create a new category
+exports.create = asyncHandler( async (req, res, next) => {
     const { name } = req.body
-
-    if(!name) return sendError(422, 'Enter category name', next);
+    //check if name is included
+    if(!name) throw new Error('Enter category name');
+    //check if name already exists
     const exists = await Category.findOne({ name })
-    if(exists) return sendError(422, 'Category already exists', next);
+    if(exists) throw new Error('Category already exists');
+    //create and return to user
+    const category = await Category.create(req.body);
+    return res.status(200).json({ data: category})
+})
 
-    try {
-        const category = await Category.create(req.body);
-        return res.status(200).json({ data: category})
-    } catch (error) {
-        return sendError(400, 'There was an error', next)
-    }
-};
+//update existing category
+exports.updateCategory = asyncHandler(async (req, res, next) => {
+    const { category } = req;
+    const { name } = req.body;
+    //check for name
+    if(!name) throw new Error('No name included')
+    category.name = name;
+    const data = await category.save( { new: true } )
+    return res.status(200).json({ data })
+})
 
-exports.updateCategory = async (req, res, next) => {
+//delete an existing category
+exports.deleteCategory = asyncHandler(async (req, res, next) => {
+    await req.category.delete();
+    return res.status(200).json({message: 'Category deleted'})
+})
 
-    const { category } = req
-    Object.keys(req.body).forEach(field => {
-        if(req.body[field]) category[field] = req.body[field];
-    })
+exports.categoryProducts = asyncHandler(async (req, res, next) => {
+    const data = await Product.find({category: req.params.categoryId})  ;
+    return res.status(200).json({ data })
+})
 
-    category.save((err, result) => {
-        if(err) res.status(400).json({error: 'There was an error'})
-        return res.status(200).json({data: result})
-    })
-}
+exports.getAllCategories = asyncHandler(async (req, res, next) => {
+    const data = await Category.find()
+    res.status(200).json({ data })
+})
 
-exports.deleteCategory = async (req, res, next) => {
-    try {
-        await req.category.delete();
-        return res.status(200).json({message: 'Category deleted'})
-    } catch (error) {
-        return sendError(400, 'There was an error', next)
-    }
-
-}
-
-exports.categoryProducts = async (req, res, next) => {
-    try {
-        const products = await Product.find({category: req.params.categoryId}).select('-photo');
-        if(!products.length) return sendError(404, 'No products found', next)
-        return res.status(200).json({data: products})
-    } catch (error) {
-        return sendError(500, 'Server Error', next)
-    }
-}
-
-exports.getAllCategories = async (req, res, next) => {
-    try {
-        const categories = await Category.find()
-        res.status(200).json({data: categories})
-    } catch (error) {
-        return sendError(400,"There was an error", next)
-    }
-}
-
-exports.getSingleCategory = (req, res, next) => {
-    return res.status(200).send({data: req.category})
-}
+exports.getSingleCategory = asyncHandler((req, res, next) => {
+    return res.status(200).send({ data: req.category } )
+})

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Product } from 'components/main/homeComponents';
+import Product from 'components/main/Product';
 
 import { getSimilarProducts } from 'services/products';
 

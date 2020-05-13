@@ -1,15 +1,12 @@
 const { Order, CartItem } = require('../models/order');
 
-const { sendError } = require('../helpers');
+const { sendError, asyncHandler } = require('../helpers');
 
-exports.createOrder = async (req, res, next) => {
-    if(!req.body) return sendError(422, 'No items present', next)
-    // return res.send(req.body)
-
+exports.createOrder = asyncHandler (async (req, res, next) => {
+    if(!req.body) throw new Error('No items present')
     //get pertinent values from req
     const { items, transaction_id, total, address } = req.body;
     const { profile } = req;
-
     //create products array to enter into order
     const products = items.map(({_id, name, price, count}) => {
         return new CartItem({
@@ -19,7 +16,6 @@ exports.createOrder = async (req, res, next) => {
             count 
         })
     })
-
     //create order
     const order = new Order({
         products,
@@ -28,27 +24,15 @@ exports.createOrder = async (req, res, next) => {
         address,
         user: profile._id
     }) 
-    
     //init variable for saved order and user update
-    let newOrder
-    try {
-        newOrder = await order.save();
-    } catch (error) {
-        return sendError(500, 'Server error', next)
-    }
-    
-    try {
-        profile.history = profile.history.concat(newOrder);
-        await profile.save();
-    } catch (error) {
-        return sendError(500, 'Server error', next);   
-    }
-
+    let newOrder = await order.save();
+    profile.history = profile.history.concat(newOrder);
+    await profile.save();
     res.json('Order saved')
+});
 
-};
-
-exports.getOrders = async (req, res, next) => {
+//get existing orders
+exports.getOrders = asyncHandler(async (req, res, next) => {
     let { order, sortBy, limit, page, status } = req.query;
 
     order = order ? order : 1;
@@ -69,20 +53,17 @@ exports.getOrders = async (req, res, next) => {
             let previousPage = page > 1 ? page -1 : null;
             return res.json({data: orders, nextPage, previousPage, total})
         })
-}
+})
 
-exports.deleteOrder = async (req, res, next) => {
+//delete existing order
+exports.deleteOrder = asyncHandler(async (req, res, next) => {
     const { order } = req;
-    try {
-            await order.remove();
-            return res.json(`Order #${req.params.orderId} deleted`)
-    }
-    catch (error) {
-        return sendError(500, 'Server error', next)
-    }
-}
+    await order.remove();
+    return res.json(`Order #${req.params.orderId} deleted`)
+})
 
-exports.updateOrder = async (req, res, next) => {
+// update existing order
+exports.updateOrder = asyncHandler(async (req, res, next) => {
 
     const valid = ["Not processed", "Processing", "Shipped", "Delivered", "Canceled"] 
 
@@ -92,22 +73,14 @@ exports.updateOrder = async (req, res, next) => {
     //enum status update
     if(valid.includes(status)) {
         //save
-        try {
-            const update = await Order.findOneAndUpdate({_id: order._id }, { status }, { new: true })
-            return res.json(update)
-        } catch (error) {
-            return sendError(500, 'Server error', next)   
-        }
+        const update = await Order.findOneAndUpdate({_id: order._id }, { status }, { new: true })
+        return res.json(update)
     }
-    return sendError(422, 'Invalid update', next);
-}
+})
 
-exports.getUserOrders = async (req, res, next) => {
+//get order by user
+exports.getUserOrders = asyncHandler(async (req, res, next) => {
     const { _id } = req.profile;
-    try {
-        const orders = await Order.find({ user: _id });
-        return res.json({ data: orders })
-    } catch (error) {
-        return sendError(500, 'Server error', next)
-    }
-}
+    const orders = await Order.find({ user: _id });
+    return res.json({ data: orders })
+})

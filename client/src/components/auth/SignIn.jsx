@@ -15,7 +15,7 @@ import hideAuth from 'components/auth/HOCs/hideAuth';
 
 const SignIn = ({ setAuth, setUser }) => {
     //hooks setup
-    const[info, setInfo] = useState({email: 'user@gmail.com', password:'123456'});
+    const[info, setInfo] = useState({email: 'admin@gmail.com', password:'123456'});
     let { password, email } = info;
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -47,7 +47,7 @@ const SignIn = ({ setAuth, setUser }) => {
 
     return (
         <Layout title="Sign in" description="Sign in to manage your purchases and account information" className="container py-2">
-            <p className="text-center lead">No account? <Link to="/signup">Sign up here</Link></p>
+            <p className="text-center lead">No account? <Link to="/signup" className="text-info">Sign up here</Link></p>
         <form onSubmit={handleSubmit} onChange={handleChange}>
             
             <div className="row py-5">

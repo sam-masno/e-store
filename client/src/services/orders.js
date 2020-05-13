@@ -4,7 +4,6 @@ import axios from 'axios';
 export const createOrder = async (userId, order, next) => {
     try {
         const res = await axios.post(`/api/order/create/${userId}`, order);
-        console.log(res.data)
         return next(false, res.data);
     } catch (error) {
         return next(true, error.response.data.message);

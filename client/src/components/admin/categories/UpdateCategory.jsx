@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 
 import adminOnly from 'components/auth/HOCs/adminOnly';
-import { GoBack } from 'components/layout/layoutComponents';
 import { CategoryList } from 'components/main/homeComponents'
 
 import { updateCategory, deleteCategory } from 'services/categories';
@@ -43,11 +42,10 @@ const UpdateCategory = () => {
 
     return (
         <div className="container py-5">
-            <GoBack className="btn-outline-info"/>
            <div className="row">
                <div className="card col-12 col-md-8 mx-auto">
                     <div className="card-header bg-white">
-                        <h3 className="">Add a new category</h3>
+                        <h3 className="">Update a category</h3>
                     </div>
                     <div className="card-content">
                         <div className="card-body">
@@ -61,7 +59,7 @@ const UpdateCategory = () => {
                                             New name:
                                         </label>
                                         <input type="text" ref={catInput} className="form-control"/>
-                                        <button className="btn btn-block btn-lg btn-primary mt-2" onClick={handleSubmit}>Submit</button>
+                                        <button className="btn btn-block btn-lg btn-info mt-2" onClick={handleSubmit}>Submit</button>
                                         <br/>
                                         <button className="btn btn-block btn-lg btn-danger" onClick={handleDelete}>Remove</button>
                                     </div>

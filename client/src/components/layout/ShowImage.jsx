@@ -1,26 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import { getImage } from 'services/products';
+// import { getImage } from 'services/products';
+import noImage from 'components/main/img/no-image.jpg';
 
-const ShowImage = ({item, url }) => {
-    const [src, setSrc] = useState('')
-    useEffect(() => {
-        let mnt = true;
-        getImage(item, url, (err, data) => {
-            if(err) {
-                return setSrc("https://source.unsplash.com/random/300x200")
-            }
-            if(mnt === true) {
-                return setSrc(data)
-            }
-        })
-
-        return () => mnt = false
-    },[]) 
-
-    if(!src) return <div></div>
+const ShowImage = ({ src }) => {
     return (
-                <img src={src} alt={'m'} className="mb-3 card-img-top img-fluid" />
+                <img src={src || noImage} alt={'m'} className="mb-3 card-img-top img-fluid" />
 
     );
 }

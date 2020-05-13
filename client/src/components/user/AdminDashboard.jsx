@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 import Layout from 'components/layout/Layout';
 import adminOnly from 'components/auth/HOCs/adminOnly';
@@ -12,7 +11,7 @@ const AdminDashboard = ({ user: {name, email, about, _id} }) => {
 
     return (
         <Layout title={name} description={`Welcome back, ${ name }`} className="container">
-            <div className="row">
+            <div className="row py-5">
                 <div className="col-12 col-md-4">
                     <OrdersLinks />
                     <CategoryLinks />

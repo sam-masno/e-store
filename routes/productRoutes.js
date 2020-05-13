@@ -2,17 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 //CONTROLLERS   
-const { createProduct, 
-    updateProduct, 
-    deleteProduct, 
-    readProduct,
-    viewProduct,
-    getAllProducts,
-    getSimilarProducts,
-    listCategories,
-    productPhoto,
+const { 
+    createProduct, updateProduct, deleteProduct, readProduct,
+    getAllProducts, getSimilarProducts, listCategories,
     listBySearch
 } = require('../controllers/productController');
+
+const { uploadUrl } = require('../controllers/uploadControllers')
 
 //MIDDLEWARES
 const { requireAuth, adminOnly } = require('../middlewares/auth');
@@ -32,8 +28,6 @@ router.route('/api/product/delete/:productId')
 router.route('/api/product/read/:productId')
     .get(readProduct);
 
-router.route('/api/product/view/:productId')
-    .get(viewProduct);
 
 router.route('/api/product/search')
     .get(getAllProducts)
@@ -47,8 +41,9 @@ router.route('/api/product/categories')
 router.route('/api/product/filter')
     .post(listBySearch)
 
-router.route('/api/product/photo/:productId')
-    .get(productPhoto)
+router.route('/api/product/upload')
+    .post(requireAuth, adminOnly, uploadUrl)
+    // .post(upload)
 
 router.param('productId', getProduct);
 router.param('userId', findUserProfile);

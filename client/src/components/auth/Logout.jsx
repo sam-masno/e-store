@@ -20,7 +20,10 @@ const Logout = ({ userSignout }) => {
     }, [])
     return (
         <div>
-            <Layout title="Sign out" description={ message }></Layout>
+            <Layout title="" description={ message }></Layout>
+            <div className="container py-5">
+                <h4 className="text-center">You have been logged out</h4>
+            </div>
         </div>
     );
 }

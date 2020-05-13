@@ -26,7 +26,7 @@ const Order = (props) => {
     return (
         <div className="card mb-3">
             <div className="card-body text-primary">
-                <h5 className="text-info">Receipt:#{ transaction_id }</h5>
+                <h5 className="text-info">Order#{ transaction_id }</h5>
                 {props.admin && (
                     <Fragment>
                         <p className="">User: { user }</p>
@@ -59,7 +59,7 @@ const Order = (props) => {
                             <option key={field} value={ field } className="form-control">{ field }</option>
                         ))}
                     </select>
-                    <button className="btn btn-primary btn-block btn-lg" onClick={handleUpdate}> Submit</button>
+                    <button className="btn btn-info btn-block btn-lg" onClick={handleUpdate}> Submit</button>
                         { message.outcome && <p className={`${message.outcome === 'error' ? 'text-danger' : 'text-success'}`}>{ message.message }</p> }
                 </Fragment>                    
                 )}

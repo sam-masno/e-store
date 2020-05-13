@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getCategories } from 'services/categories';
 
-export const ProductName = ({property, handleChange}) => (
+export const ProductName = ({property = '', handleChange}) => (
     <div className="form-group">
         <label className="col-form-label col-form-label-lg" htmlFor="name">Product Name</label>
         <input className="form-control form-control-lg" type="text" name="name" value={property} onChange={handleChange} minLength="3" required/>
@@ -21,7 +21,7 @@ export const Photo = ({ property, handleChange }) => {
             <label htmlFor="photo" className="col-form-label col-form-label-lg">Upload a Photo</label>
             <br/>   
             <div className="">
-                <button className="btn btn-sm btn-primary mb-2" type="button" onClick={onClick}>Browse</button>
+                <button className="btn btn-sm btn-info mb-2" type="button" onClick={onClick}>Browse</button>
                 <p className="form-control form-control-lg text-truncate ">{ property.name || 'None'}</p>
             </div>
             {/* HIDE INPUT BUTTON AND USE REF TO FORWARD CLICK */}
@@ -43,7 +43,7 @@ export const Quantity = ({property, handleChange}) => (
     </div>
 )
 
-export const Description = ({property, handleChange}) => (
+export const Description = ({property , handleChange}) => (
     <div className="form-group">
         <label className="col-form-label col-form-label-lg" htmlFor="description">Description</label>
         <textarea className="form-control" name="description" rows="5" value={property} onChange={handleChange}  required/>

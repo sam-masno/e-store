@@ -18,7 +18,7 @@ const Header = ({auth, user}) => {
 
     const Dashboard = () =>    user.role === 1 ? (
         <li className="nav-item mr-2 text-white active">
-            <Link to="/admin" className={active('/admin')}>Admin</Link>
+            <Link to="/admin" className="btn btn-info">Admin</Link>
         </li>
     )   :   (
         <li className="nav-item mr-2 text-white">
@@ -91,14 +91,14 @@ const Header = ({auth, user}) => {
 
 const CartButton = connectCart(({cart:{total, count}}) => {
 
-    const Total = () => total ? <h5 className="d-inline bg-success rounded px-2">${ total }</h5> : <div></div>
+    const Total = () => total ? <h5 className="d-inline bg-danger text-white rounded px-2">${ total }</h5> : <div></div>
     return (
         <Link to="/cart">
             <div className="text-white d-flex mt-2">
                 <Total />
                 &nbsp;
                 <span className="fas fa-shopping-cart fa-2x text-danger" ></span>
-                <sup><span className="badge badge-warning">{ count } </span> </sup>
+                <sup>{ count }</sup>
             </div>
         </Link>
         

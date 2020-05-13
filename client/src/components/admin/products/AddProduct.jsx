@@ -15,10 +15,8 @@ const defaultState = {
     description: '',
     price: '',
     quantity: '',
-    photo: '',
     loading: '',
-    error: '',
-    formData: new FormData ()
+    error: ''
 }
 
 const AddProduct = () => {
@@ -26,32 +24,32 @@ const AddProduct = () => {
 
     const [success, setSuccess] = useState('');
     const [info, setInfo] = useState(defaultState);
-    const { name, category, description, price, quantity, photo, loading, error, formData} = info;
+    const { name, category, description, price, quantity, loading, error } = info;
+    const [ photo, setPhoto ] = useState('')
     
     // event handlers
     const handleSubmit = event => {
         event.preventDefault();
+        //change message notifications
         setSuccess('')
         setInfo({ ...info, loading:'Adding product', error: '' })
-        addProduct(formData, (err, message) => {
+
+        addProduct(info, photo , (err, message) => {
             if(err) setInfo({ ...info, loading: '', error: message });
             setInfo({...defaultState, category: category});
             setSuccess(message)
-            // setForm( new FormData() )
         })
     }
 
-    const handleChange = event => {
-        const{ name, value } = event.target
-        if(name === 'photo') {
-            formData.set('photo', event.target.files[0] )
-            setInfo({...info, photo : event.target.files[0]})
-        }else {
-            formData.set(name, value)
-            setInfo({...info, [event.target.name] : event.target.value})
-        }
+    const handleFile = event => {
+        const { files } = event.target
+        if( !files[0]) setPhoto('')
+        else setPhoto( files[0] )
     }
 
+    const handleChange = event => {
+        setInfo({...info, [event.target.name] : event.target.value})
+    }
     return (
         <Layout title="Add new products" description="Fill out the form below to add products to the e-store" className="container py-5">
             {/* <GoBack className="btn-outline-info"/> */}
@@ -66,7 +64,7 @@ const AddProduct = () => {
                                         <Price property={price} handleChange={handleChange} /> 
                                         <Quantity property={quantity} handleChange={handleChange} /> 
                                     </div>
-                                        <Photo property={photo} handleChange={handleChange} /> 
+                                        <Photo property={photo} handleChange={ handleFile } /> 
                                         <Description property={description} handleChange={handleChange} />    
                                 </div>
                                     </fieldset>
@@ -75,7 +73,7 @@ const AddProduct = () => {
                                     { error && <Error error={ error }/> }
                                     { success && <Success message={ success }/> }
 
-                            <button className="btn btn-block btn-primary mb-5" onClick={() => console.log(info)} >Submit</button>
+                            <button className="btn btn-block btn-info mb-5" >Submit</button>
                         </form>
                     </div>
                 

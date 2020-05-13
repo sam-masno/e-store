@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react';
 //components
 import adminOnly from 'components/auth/HOCs/adminOnly';
 import { CategoryList } from 'components/main/homeComponents';
-import { ProductName, Price, Description, Quantity, CategorySelect } from 'components/admin/products/productComponents';
+import { ProductName, Price, Description, Quantity, CategorySelect, Photo } from 'components/admin/products/productComponents';
 
 
 //services
@@ -23,12 +23,12 @@ const UpdateProduct = () => {
     const [message, setMessage] = useState('')
     const [products, setProducts] = useState([])
     const [current, setCurrent] = useState('');
-    const [form, setForm] = useState( new FormData());
-    const { name, quantity, price, photo, description, category } = current;
+    const [file, setFile] = useState('')
+    const { name, quantity, price, description, category } = current;
 
     useEffect(() => {
         let mnt = true;
-        if(cat) {
+        if(cat && cat !== 'Choose') {
             browse(cat, (err, result) => {
                 if(mnt) {
                     setMessage({message:'', type:''})
@@ -51,25 +51,31 @@ const UpdateProduct = () => {
     const setCurrentProduct = event => {
         setMessage({message:''})
         setCurrent(products.filter(product => product._id === event.target.value)[0])
-        setForm(new FormData())
     } 
 
     //SUBMIT FORM CHANGES TO API, UPDATE MESSAGES
     const handleSubmit= event => {
-        updateProduct(form, current._id, (err, result) => {
+        updateProduct(current, current._id, file, (err, result) => {
             if(err) return setMessage({ message: result, type:'error' });
             setMessage({message: 'Update successful', type: 'success'})
             setProducts(products.map(product => product._id === result._id ? result : product))
-            setCurrent(result)
-            setForm( new FormData() )
         })
     }
 
     //UPDATE STATE AND FORM WHEN INPUTS ARE CHANGED
     const handleChange = event => {
         const{ name, value } = event.target
-        form.set(name, value)
-        setCurrent({...current, [event.target.name] : event.target.value})
+        setCurrent({...current, [name] : value})
+    }
+
+    // handle file select for file
+    const handleFile = event => {
+        const { files } = event.target
+        if(!files[0]) {
+            setFile('')
+        } else {
+            setFile(files[0])
+        }
     }
 
     //DELETE PRODUCT
@@ -119,9 +125,10 @@ const UpdateProduct = () => {
                                         <Price property={price} handleChange={handleChange} />
                                         <Quantity property={quantity} handleChange={handleChange} />
                                     </div>
+                                    <Photo property = { file } handleChange={handleFile} />
                                     <Description property={description} handleChange={handleChange} />
                                     <h4 className={`${message.type === 'error' ? 'text-danger': 'text-success'}`}> { message.message } </h4> 
-                                    <button className="btn btn-block btn-primary mb-5" onClick={handleSubmit} >Submit</button> 
+                                    <button className="btn btn-block btn-lg btn-info mb-5" onClick={handleSubmit} >Submit</button> 
                                     <button className="btn btn-block btn-lg btn-danger" onClick={handleDelete}>REMOVE PRODUCT</button> 
                                 </div> 
                         </fieldset>

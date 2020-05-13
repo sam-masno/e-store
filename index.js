@@ -4,8 +4,9 @@ require('dotenv').config()
 require('./services/db');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const fileUpload = require('express-fileupload')
 
 //routes
 const authRoutes = require('./routes/auth');
@@ -20,7 +21,11 @@ const orderRoutes = require('./routes/orderRoutes');
 app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(cookieParser());
+// app.use(cookieParser());
+// parse file uploads for images
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  }));
 
 //apply routes
 app.use(authRoutes);
@@ -32,6 +37,7 @@ app.use(orderRoutes);
 
 app.use(( err, req, res, next) => {
     const { message, status } = err
+    console.log(err)
     res.status( status || 500).send({ message : message || 'Server error'})
 })
 

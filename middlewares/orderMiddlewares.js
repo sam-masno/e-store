@@ -4,10 +4,10 @@ const { sendError } = require('../helpers');
 exports.findOrder = async (req, res, next, orderId) => {
     try {
         const order = await Order.findById(orderId);
-        if(!order) return sendError(400, 'Order not found', next);
+        if(!order) next(sendError(400, 'Order not found', next));
         req.order = order;
         next()
     } catch (error) {
-        return sendError(500, 'Server error', next);
+        next(sendError(500, 'Server error'));
     }
 }

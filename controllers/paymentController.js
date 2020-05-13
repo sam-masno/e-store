@@ -1,5 +1,4 @@
 const bt = require('braintree');
-const User = require('../models/user');
 const keys = require('../config/keys');
 const { sendError } = require('../helpers');
 
@@ -28,7 +27,7 @@ exports.processPayment = async (req, res, next) => {
     let clientNonce = req.body.paymentMethodNonce;
     let amountFromClient = req.body.amount;
 
-    const transaction = gateway.transaction.sale({
+    gateway.transaction.sale({
         paymentMethodNonce: clientNonce,
         amount: amountFromClient,
         options: {

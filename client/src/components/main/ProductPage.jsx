@@ -35,15 +35,15 @@ const ProductPage = ({}) => {
         return <Loading />
     }
 
-    const {name, description, createdAt, sold, price, quantity, _id, category } = product;
+    const {name, description, createdAt, sold, price, quantity, _id, category, photo } = product;
 
     return (
         <Layout title={heading.title} description={heading.description} className="">
-            <div className="container">
+            <div className="container py-5">
                 <div className="row">
                     <div className="col col-md-9 mx-auto">
                         <div className="card h-100 bg-primary">
-                            <ShowImage item={_id} url={'product'} />
+                            <img src={photo} className="mb-3 card-img-top img-fluid" />
                             {/* <div className="card-image"> */}
                             {/* </div> */}
                             <div className="card-body">
@@ -96,9 +96,11 @@ const AddButton = connectCart(({product, addItem, cart}) => {
 
     return (
         <button type="button" className="btn btn-danger btn-lg btn-block" onClick={handleAdd} >
-            <span className="badge badge-warning"> { count || 0 } </span>
-            {' '}
-            Add to Cart
+            <h5 className="text-white">
+                <span className="badge badge-warning"> { count || 0 } </span>
+                {' '}
+                Add to Cart
+            </h5>
         </button>
     )
 })

@@ -1,4 +1,4 @@
-import React, { useState, useEffect,Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -19,18 +19,12 @@ const Cart = ({ cart: { items, total, count } }) => {
             <div className="card-content">
                     { 
                         !items.length && (<h5 className="text-center my-5">
-                        Nothing in cart. Head to <Link to="/">Shop</Link>
+                        Nothing in cart. Head to <Link to="/" className="text-info">Shop</Link>
                         </h5>)
                     }
-
-
                 <ul className="list-group">
-                    
-
                     { items.map((item, i) => (
                             <CartItem key={i} item={item} />
-                              
-                        
                     ))}
                     { count !== 0 && (
                             <Fragment>
@@ -45,7 +39,6 @@ const Cart = ({ cart: { items, total, count } }) => {
                                 </li>
                                     <ClearCart />
                             </Fragment>
-
                         )
                     }
                 </ul>
@@ -63,20 +56,20 @@ const CartItem = connectCart(({ item, addItem, removeItem }) => {
         removeItem( item._id )
     }
 
-    // const { name, price,}
-
     return (
         <li className="list-group-item">
-            <div className="d-flex justify-content-between">
-                <div className="">
+            <div className="row">
+                <div className="col-12 col-md-6">
                     <Link to={`/product/view/${item._id}`} className=""> 
                         <h4>{ item.name }</h4>
                     </Link>
                     <p>${ item.price }</p> 
                 </div>
-                <div>
+                <div className="col-12 col-md-6">
                     <button className="btn btn-danger mr-2 lead" onClick={handleRemove}> - </button>
-                        { item.count }
+                        &nbsp;
+                       <span className="h5">{ item.count }</span> 
+                       &nbsp;
                     <button className="btn btn-success ml-2" onClick={handleAdd}> + </button>
                 </div>
             </div>

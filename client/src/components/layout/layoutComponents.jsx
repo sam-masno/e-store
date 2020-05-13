@@ -50,8 +50,8 @@ const Add = ({cart, addItem, product }) => {
         addItem(product)
     }
     return (
-        <button className="btn btn-outline-danger" onClick={ handleClick }>
-            {count && <span className="badge badge-warning">{ count }</span> }
+        <button className="btn btn-danger text-white" onClick={ handleClick }>
+            {count && <span className="badge badge-warning pb-1 pt-1">{ count }</span> }
             <span className="fas fa-cart-plus"></span>
             Add
         </button>

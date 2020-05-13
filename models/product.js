@@ -33,8 +33,8 @@ const productSchema = new Schema(
             type: Number
         },
         photo: {
-            data: Buffer,
-            contentType: String
+            type: String,
+            default: 'no-photo.jpeg'
         }
 
     },

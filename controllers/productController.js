@@ -1,109 +1,55 @@
 const fs = require('fs');
 const Product = require('../models/product');
-const formidable = require('formidable');
 const _ = require('lodash');
-const { sendError } = require('../helpers');
+const { sendError, asyncHandler } = require('../helpers');
 
 //create new product
 // @/api/product/create
 //@access admin only
-exports.createProduct = (req, res, next) => {
-    const form = formidable.IncomingForm();
-    form.keepExtensions = true;
-    form.parse(req, (err, fields, files) => {
-
-        if(err) res.status(400).json({ error: 'Image could not be uploaded'});
-
-        let product = new Product(fields);
-
-        const { name, description, price, quantity, category } = fields;
-
-        if(!name || !description || !price || !quantity || !category) {
-            return sendError(422, 'Enter all required fields', next);
-        }
-
-        if(files.photo){
-
-            if(files.photo.size > 1000000) {
-                return sendError(422, 'Image must be less than 1mb', next);
-            }
-            product.photo.data = fs.readFileSync(files.photo.path);
-            product.photo.contentType = files.photo.type;
-        } 
-
-        product.save((err, result) => {
-            if(err) return sendError(400, 'Error. Please try again', next)
-            res.json({ data : result })
-        })
-    })
-};
+exports.createProduct = asyncHandler(async (req, res, next) => {
+    const exists = await Product.findOne({ name: req.body.name, category: req.body.category})
+    if(exists) throw new Error('Product name already exists in that category')
+    const product = await Product.create(req.body)
+    res.json(product)
+});
 
 
-//create new product
+//update existing product
 // @/api/product/update/:productId
 //@access admin only
-exports.updateProduct = async (req, res, next) => {
-
+exports.updateProduct = asyncHandler(async (req, res, next) => {
     const { product } = req;
-    // res.json({data: product})
-    const form = formidable.IncomingForm();
-    form.keepExtensions = true;
-    form.parse(req, (err, fields, files) => {
-        if(err) res.status(400).json({ error: 'Image could not be uploaded'});
-        
-        //check for form fields and update product
-        Object.keys(fields).forEach(fieldname => {
-            if(fields[fieldname]) product[fieldname] = fields[fieldname];
-        })
-        
-        // res.json({data: product})
-
-        if(files.photo){
-
-            if(files.photo.size > 1000000) {
-                return sendError(422, 'Image must be less than 1mb', next);
-            }
-            product.photo.data = fs.readFileSync(files.photo.path);
-            product.photo.contentType = files.photo.type;
-        } 
-
-        product.save((err, result) => {
-            if(err) return sendError(400, 'Error. Please try again', next)
-            res.json({ data : result })
-        })
-    })
-}
+    // res.json({data: product}
+    const data = await Product.findByIdAndUpdate(product._id, req.body, { new: true } )
+    res.json({data})
+})
 
 //create new product
 // @/api/product/delete/:productId
 //@access admin only
-exports.deleteProduct = async (req, res, next) => {
-    try {
-        await req.product.remove()
-        res.json({message: 'Product deleted'})
-    } catch (error) {
-        return sendError(400, 'Error', next);
-    }
-}
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
+    await req.product.remove()
+    res.json({message: 'Product deleted'})
+})
 
 exports.readProduct = (req, res) => {
     res.status(200).json({data: req.product});
 }
 
-exports.viewProduct = async (req, res) => {
-    const { product } = req;
-    const getPhoto = await Product.findById(product._id).select('photo');
-    // getPhoto.json(photo)
-    product.photo.data = getPhoto.photo.data;
-    product.photo.contentType = getPhoto.photo.contentType;
-    return res.status(200).json({data: product })
+// exports.viewProduct = asyncHandler(async (req, res) => {
+//     const { product } = req;
+//     const getPhoto = await Product.findById(product._id).select('photo');
+//     // getPhoto.json(photo)
+//     product.photo.data = getPhoto.photo.data;
+//     product.photo.contentType = getPhoto.photo.contentType;
+//     return res.status(200).json({data: product })
 
-}
+// })
 
 //get all products with simple queries
 //@/api/product/search
 //@access public
-exports.getAllProducts = async (req, res, next) => {
+exports.getAllProducts = asyncHandler(async (req, res, next) => {
     let { order, sortBy, limit, page } = req.query;
     order = order ? order : -1;
     sortBy = sortBy ? sortBy : 'createdAt';
@@ -112,7 +58,6 @@ exports.getAllProducts = async (req, res, next) => {
     let skip = page ? (page - 1) * limit : 0;
 
     Product.find()
-        .select('-photo')
         .sort([[sortBy, order]])
         .limit(limit)
         .skip(skip)
@@ -120,49 +65,33 @@ exports.getAllProducts = async (req, res, next) => {
             if(err) return sendError(500, 'Server Error', next);
             return res.json({data: products})
         })
-}
+})
 
 //get other products in same category
 // @/api/product/similar/:productId
 //@access public
-module.exports.getSimilarProducts = async (req, res, next) => {
+module.exports.getSimilarProducts = asyncHandler(async (req, res, next) => {
     const { category } = req.product;
     // res.send(category)
-    try {
-        const similarProducts = await Product.find({ _id: {$ne: req.product},  category })
+        const data = await Product.find({ _id: {$ne: req.product},  category })
             .select('-photo')
             .populate('category', '_id name')
             .limit(3)
             .sort([['price', 1]])
-        if(!similarProducts.length) return res.status(404).json({ error: 'No products' })
-        return res.status(200).json({ data : similarProducts })
-    } catch (error) {
-        return sendError(500, 'Server error', next)
-    }
-}
+        return res.status(200).json({ data })
+})
 
-exports.listCategories = async (req, res, next) => {
-    try {
+//return a list of all categories associated to a product
+exports.listCategories = asyncHandler(async (req, res, next) => {
         const categories = await Product.distinct('category')
-        if(!categories) return sendError(404, 'Category not found', next)
         return res.status(200).json({data: categories})
-    } catch (error) {
-        return sendError(500, 'Server error', next)
-    }
-}
+})
 
-/**
- * list products by search
- * we will implement product search in react frontend
- * we will show categories in checkbox and price range in radio buttons
- * as the user clicks on those checkbox and radio buttons
- * we will make api request and show the products to users based on what he wants
- */
  
 // route - make sure its post
 
  
-exports.listBySearch = (req, res, next) => {
+exports.listBySearch = asyncHandler((req, res, next) => {
     let order = req.body.order ? req.body.order : "desc";
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
@@ -188,7 +117,6 @@ exports.listBySearch = (req, res, next) => {
     }
  
     Product.find(findArgs)
-        .select("-photo")
         .populate("category")
         .sort([[sortBy, order]])
         .skip(skip)
@@ -204,14 +132,7 @@ exports.listBySearch = (req, res, next) => {
                 data
             });
         });
-};
+});
 
-exports.productPhoto = async (req, res, next) => {
-    try {
-        const photo = await Product.findById(req.product._id).select('photo');
-        if(!photo) return sendError(404, 'Photo not found', next)
-        return res.status(200).json(photo)
-    } catch (error) {
-        return sendError(400, 'Error', next)
-    }
-}
+
+

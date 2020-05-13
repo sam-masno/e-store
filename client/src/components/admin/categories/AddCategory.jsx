@@ -5,7 +5,7 @@ import { addCategory } from 'services/categories';
 
 //components
 import adminOnly from 'components/auth/HOCs/adminOnly';
-import { GoBack, Error, Success } from 'components/layout/layoutComponents'
+import {  Error, Success } from 'components/layout/layoutComponents'
 
 const AddCategory = () => {
     const [name, setName] = useState('');
@@ -29,7 +29,6 @@ const AddCategory = () => {
 
     return (
         <div className="container py-5">
-            <GoBack className="btn-outline-info"/>
            <div className="row">
                <div className="card col-12 col-md-8 mx-auto px-0">
                     <div className="card-header">
@@ -48,7 +47,7 @@ const AddCategory = () => {
                                 </fieldset>
                                 { error && <Error error={ error }/> }
                                 { success && <Success message={ success }/> }
-                                <button className="btn btn-block btn-primary">Submit</button>
+                                <button className="btn btn-block btn-info">Submit</button>
                             </form>
                         </div>
                    </div>

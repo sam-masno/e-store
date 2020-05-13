@@ -60,23 +60,23 @@ const Orders = () => {
                     <ul className="pagination text-center mx-auto">
                         { previousPage && (
                             <li className="page-item">
-                                <button className="page-link bg-primary" 
+                                <button className="page-link bg-info" 
                                     onClick={ () => { setParams({...params,  page: previousPage}); 
                                     setPages({...pages, loading: true})
                                     }}
-                            ><span className="fas fa-arrow-left"></span></button></li>
+                            ><span className="fas fa-arrow-left text-white"></span></button></li>
                         )}
 
-                        <li className="page-item"><button className="page-link">{ page }</button></li>
+                                <li className="page-item"><button className="page-link">{ page } / { Math.ceil(pages.total / 2) } </button></li>
 
                         { nextPage && (
                                 <li className="page-item">
-                                    <button className="page-link bg-primary" 
+                                    <button className="page-link bg-info" 
                                         onClick={ () => { setParams({...params,  page: nextPage}); 
                                         setPages({...pages, loading: true})
                                         }}
                                     >
-                                        <span className="fas fa-arrow-right"></span>
+                                        <span className="fas fa-arrow-right text-white"></span>
                                     </button>
                                 </li>
 
