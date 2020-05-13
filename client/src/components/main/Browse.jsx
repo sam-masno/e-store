@@ -74,7 +74,7 @@ const Browse = () => {
     }
     // return section
     return (
-        <section id="browse" className="py-5 bg-primary text-white">
+        <section id="browse" className="py-5 bg-primary">
         {/* SELECT CATEGORY AND FILTER BY MAX PRICE */}
         <div className="container">
             <div className="row home-section">
