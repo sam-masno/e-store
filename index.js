@@ -7,6 +7,7 @@ const morgan = require('morgan');
 // const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const fileUpload = require('express-fileupload')
+const path = require('path')
 
 //routes
 const authRoutes = require('./routes/auth');
@@ -34,6 +35,10 @@ app.use(categoryRoutes);
 app.use(productRoutes);
 app.use(paymentRoutes);
 app.use(orderRoutes);
+
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 app.use(( err, req, res, next) => {
     const { message, status } = err

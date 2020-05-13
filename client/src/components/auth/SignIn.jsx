@@ -15,7 +15,7 @@ import hideAuth from 'components/auth/HOCs/hideAuth';
 
 const SignIn = ({ setAuth, setUser }) => {
     //hooks setup
-    const[info, setInfo] = useState({email: 'admin@gmail.com', password:'123456'});
+    const[info, setInfo] = useState({email: '', password:''});
     let { password, email } = info;
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
