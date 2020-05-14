@@ -6,6 +6,7 @@ export const signup = async (info, callback) => {
     try {
         const res = await axios.post(`/api/signup`, info)
         localStorage.setItem('token', res.data.token) 
+        setAuthToken(res.data.token) 
         return callback(false, res.data.user)
     } catch (error) {
         return callback(error.response.data.message, null);

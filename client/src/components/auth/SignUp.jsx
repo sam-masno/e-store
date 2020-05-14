@@ -38,7 +38,7 @@ const SignUp = ({ setAuth, setUser }) => {
                 if(error) return setError(error);
                 setUser(user)
                 setAuth(true);
-                history.push('/dashboard'); 
+                history.push('/'); 
 
             })
         }

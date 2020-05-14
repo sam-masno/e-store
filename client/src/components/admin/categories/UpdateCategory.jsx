@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 
 import adminOnly from 'components/auth/HOCs/adminOnly';
 import { CategoryList } from 'components/main/homeComponents'
+import Layout from 'components/layout/Layout';
 
 import { updateCategory, deleteCategory } from 'services/categories';
 
@@ -41,6 +42,7 @@ const UpdateCategory = () => {
     }
 
     return (
+        <Layout>
         <div className="container py-5">
            <div className="row">
                <div className="card col-12 col-md-8 mx-auto">
@@ -71,6 +73,7 @@ const UpdateCategory = () => {
                </div>
            </div>
         </div>
+        </Layout>
     )
 }
 

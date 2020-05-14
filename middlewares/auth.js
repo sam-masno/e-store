@@ -1,4 +1,3 @@
-const expressJwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { sendError } = require('../helpers')
@@ -8,11 +7,10 @@ const checkToken = token => jwt.verify(token, require('../config/keys').jwtSecre
 //ensure req contains jwt, pass on req.auth
 // @all protected routes
 exports.requireAuth = (req, res, next) => {
-    if(!req.headers.authorization) next(sendError(403, 'Access denied'))
+    if(!req.headers.authorization) return next(sendError(403, 'Access denied'))
+    if(!req.headers.authorization.includes('Bearer')) return next(sendError(403, 'Access denied'))
     const [bearer, token] = req.headers.authorization.split(' ');
     if(!token || bearer !== 'Bearer') next(sendError(403, 'Access denied'));
-    // const token = req.cookies.t;
-    // if(!token) return sendError(403, 'Access denied', next)
     try {
         const auth = checkToken(token);
         req.auth = auth;

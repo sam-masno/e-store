@@ -8,7 +8,6 @@ import { ProductName, Price, Description, Photo, Quantity, CategorySelect } from
 
 import adminOnly from 'components/auth/HOCs/adminOnly';
 
-
 const defaultState = {
     name: '',
     category: '',
@@ -35,7 +34,7 @@ const AddProduct = () => {
         setInfo({ ...info, loading:'Adding product', error: '' })
 
         addProduct(info, photo , (err, message) => {
-            if(err) setInfo({ ...info, loading: '', error: message });
+            if(err) return setInfo({ ...info, loading: '', error: message });
             setInfo({...defaultState, category: category});
             setSuccess(message)
         })
@@ -51,7 +50,7 @@ const AddProduct = () => {
         setInfo({...info, [event.target.name] : event.target.value})
     }
     return (
-        <Layout title="Add new products" description="Fill out the form below to add products to the e-store" className="container py-5">
+        <Layout>
             {/* <GoBack className="btn-outline-info"/> */}
             <div className="container">
                 <div className="card col-12 col-md-8 mx-auto bg-light">

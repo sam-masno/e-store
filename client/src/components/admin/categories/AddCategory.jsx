@@ -6,6 +6,7 @@ import { addCategory } from 'services/categories';
 //components
 import adminOnly from 'components/auth/HOCs/adminOnly';
 import {  Error, Success } from 'components/layout/layoutComponents'
+import Layout from 'components/layout/Layout';
 
 const AddCategory = () => {
     const [name, setName] = useState('');
@@ -28,6 +29,7 @@ const AddCategory = () => {
     }
 
     return (
+        <Layout>
         <div className="container py-5">
            <div className="row">
                <div className="card col-12 col-md-8 mx-auto px-0">
@@ -55,6 +57,7 @@ const AddCategory = () => {
                </div>
            </div>
         </div>
+        </Layout>
     )
 }
 

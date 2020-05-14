@@ -20,7 +20,7 @@ router.route('/api/order/all/:userId')
 
 // get all orders for admin
 router.route('/api/order/all')
-    .get(requireAuth, adminOnly, getOrders)
+    .get(requireAuth, getOrders)
 
 //delete an order
 router.route('/api/order/delete/:orderId')

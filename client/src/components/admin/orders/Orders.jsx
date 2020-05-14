@@ -10,6 +10,8 @@ import { getOrders } from 'services/orders';
 //utils
 import statusFields from 'utils/statusFields'
 
+import Layout from 'components/layout/Layout';
+
 
 
 const Orders = () => {
@@ -109,13 +111,14 @@ const Orders = () => {
 
 
     return (
-        <div className="container">
-            <div className="row">
-                <Filter />
-                <Results />
+        <Layout>
+            <div className="container">
+                <div className="row">
+                    <Filter />
+                    <Results />
+                </div>
             </div>
-            
-        </div>
+        </Layout>
     );
 }
 

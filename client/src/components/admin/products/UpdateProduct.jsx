@@ -3,6 +3,7 @@ import React, { useState, useEffect} from 'react';
 //components
 import adminOnly from 'components/auth/HOCs/adminOnly';
 import { CategoryList } from 'components/main/homeComponents';
+import Layout from 'components/layout/Layout';
 import { ProductName, Price, Description, Quantity, CategorySelect, Photo } from 'components/admin/products/productComponents';
 
 
@@ -101,6 +102,7 @@ const UpdateProduct = () => {
     }
 
     return (
+        <Layout>
         <div className="container py-5">
             <div className="col-12 col-md-9 mx-auto">
                 <h4>Update product</h4>
@@ -136,6 +138,7 @@ const UpdateProduct = () => {
                 )}
             </div>
         </div>
+        </Layout>
     );
 }
 

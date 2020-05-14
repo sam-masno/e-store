@@ -12,11 +12,8 @@ const Header = ({auth, user}) => {
         changePath(location.pathname);
     }, [location.pathname])
 
-    const active = (pathname) => {
-        return pathname === path ? '': 'text-white'
-    } 
 
-    const Dashboard = () =>    user.role === 1 ? (
+    const Dashboard = () =>    user.role === 1 || user.email === 'mockUser@gmail.com' ? (
         <li className="nav-item mr-2 text-white active">
             <Link to="/admin" className="btn btn-info">Admin</Link>
         </li>

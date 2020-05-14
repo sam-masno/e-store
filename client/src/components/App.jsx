@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import { connect } from 'react-redux';
 import setAuthToken from 'utils/setAuthToken';
@@ -15,6 +15,8 @@ import PublicRoutes from 'components/routes/PublicRoutes';
 import Dashboards from 'components/routes/Dashboards';
 import AdminFunctions from 'components/routes/AdminFunctions';
 import AuthPages from 'components/routes/AuthPages';
+import NotFound from 'components/layout/NotFound';
+import Footer from 'components/layout/Footer'
 
 //check if token available and set axios default auth headers
 if(localStorage.getItem('token')) {
@@ -43,7 +45,7 @@ const App = ({setAuth, auth, setUser, setItems }) => {
     }
 
     return (
-        <div>
+        <div className="pb-0">
             <Header/>
             <Switch>
                 {/* STORE AND PRODUCTPAGES*/}
@@ -54,7 +56,10 @@ const App = ({setAuth, auth, setUser, setItems }) => {
                 { AdminFunctions() }
                 {/* AUTH COMPONENTS */}
                 { AuthPages() }
+                {/* Page not found */}
+                <Route path='*' component={NotFound} />
         </Switch>
+        {/* <Footer /> */}
         </div>
     );
 }

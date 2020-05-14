@@ -9,9 +9,10 @@ export default (ChildComponent) => {
 
         let history = useHistory();
         useEffect(() => {
-            if(!props.auth || props.user.role !== 1) {
+            if(!props.auth) {
                 history.push('/');
-            }
+            } else if( props.user.role !== 1 && props.user.email !== 'mockUser@gmail.com')
+                history.push('/');  
         }, [props])
 
         return <ChildComponent {...props} />

@@ -19,13 +19,14 @@ const  Product = ({ product, product: {name, description, createdAt, sold, price
                 <h6><span className="font-weight-bold">Availability:</span> 
                     {' '}
                     {
-                        quantity > 0 ? <span className="bg-success rounded px-2 text-white">In Stock</span> : <span className="bg-warning rounded">Out of Stock</span>
+                        quantity > 0 ? <span className="bg-success rounded px-2 text-white">In Stock</span> : <span className="bg-warning rounded text-white">Out of Stock</span>
                     }
                 </h6>
                 <h6><span className="font-weight-bold">Sold:</span> { sold }</h6>
             </div>
             <div className="card-footer bg-white">
-                <AddButton product={product} />
+
+                { quantity > 0 && <AddButton product={product} />}
                 <Link to={`/product/view/${_id}`} className="btn btn-info float-right">View</Link>
             </div>
         </div>

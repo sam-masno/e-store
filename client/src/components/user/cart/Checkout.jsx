@@ -11,6 +11,7 @@ import connectCart from 'components/user/cart/connectCart';
 
 import { getPaymentToken, sendPayment } from 'services/payments';
 import { createOrder } from 'services/orders';
+import Layout from 'components/layout/Layout';
 
 
 const defaultState = { success: false, clientToken: null,instance: {}, address: ''}
@@ -38,7 +39,7 @@ const Checkout = (
     }, [])
 
     const handlePay = async () => {
-        if(address.length < 5) return setError('Please enter valid address')
+        if(address.length < 5) return setError('Please enter valid delivery address')
         setError(null)
         const { nonce } = await instance.requestPaymentMethod();
         sendPayment(_id, nonce, total, (err, result) => {
@@ -60,7 +61,7 @@ const Checkout = (
     }
 
     return (
-        <Fragment>
+        <Layout>
             {/* show cart total and item count */}
         <div className="container py-5">
             <div className="row">
@@ -72,9 +73,9 @@ const Checkout = (
                         </Fragment>
                     )
                          }
-                    <div className="card">
+                    <div className="card bg-primary">
                         <div className="card-body">
-                            <h3>Checkout</h3>
+                            <h3 className="text-white">Checkout</h3>
                             <ul className="list-group">
 
                                 <li className="list-group-item lead">
@@ -99,6 +100,28 @@ const Checkout = (
             </div>
         </div>
         {/* show payment dropin if items in cart */}
+        <div className="container">
+            <div className="row">
+                <div className="col-md-8 col-12 offset-md-2">
+                <div className="alert alert-danger alert-dismissable fade show lead">
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    This is test payment system and cannot accept real payment information. Use the following credit card numbers: 
+                    <hr/>
+                    <ul className="list-unstyled">
+                        <li>4111111111111111 - Visa</li>
+                        <li>371449635398431	- American Express</li>
+                        <li>6011111111111117 - Discover</li>
+                        <li>5555555555554444 - Mastercard</li>
+                        <li></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+
+        </div>
+ 
         { clientToken === null && <div className="container py-5"><h3 className="text-primary text-center">Please wait...</h3></div>  }
         { clientToken !== null && items.length > 0 ? (
                         <Fragment>
@@ -122,14 +145,14 @@ const Checkout = (
                         </Fragment>
                         ): <Fragment></Fragment> 
                     }
-        </Fragment>
+        </Layout>
     );
 }
 
 export default requireAuth( connectCart(Checkout) );
 
 /*
-
+test card
 378282246310005	American Express
 371449635398431	American Express
 36259600000004	Diners Club*

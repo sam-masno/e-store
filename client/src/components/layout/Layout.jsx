@@ -1,11 +1,7 @@
 import React from 'react';
 
 const ProductLayout = ({
-    title = 'Title', 
-    description = 'Description here...',
-    className,
     children
-    
 }) => {
 
     const style = {
@@ -16,15 +12,14 @@ const ProductLayout = ({
     return (
         <div>
             <div className="d-flex bg-primary text-white" style={style}>
-                {/* <div className="container">
+                <div className="container">
                     <div className="text-center">
-                        <h2 className="text-white">{ title }</h2>
-                        <p className="lead">{ description }</p>
+                        <p className="lead mb-3">This site is for educational purposes only.</p>
                     </div>
                     
-                </div>                 */}
+                </div>                
             </div>
-            <div className={ className }>
+            <div className="pt-5">
                 { children }
             </div>
         </div>

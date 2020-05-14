@@ -13,6 +13,8 @@ import { Spinner } from 'components/layout/layoutComponents';
 import { EmailInput, Password } from 'components/auth/HOCs/authComponents';
 import hideAuth from 'components/auth/HOCs/hideAuth';
 
+const mockUser = { email: 'mockUser@gmail.com', password: 'gjfkeo94jgmbeeofjtir'}
+
 const SignIn = ({ setAuth, setUser }) => {
     //hooks setup
     const[info, setInfo] = useState({email: '', password:''});
@@ -45,9 +47,28 @@ const SignIn = ({ setAuth, setUser }) => {
         })
     }
 
+    const mockLogin = () => {
+        setError('')
+        setLoading(true)
+        signin(mockUser, (error, data) => {
+            setLoading(false)
+            if(error) return setError(data)
+            else if(data){
+                setInfo({email:'', password:''})
+                setUser(data);
+                setAuth(true);
+                history.push('/'); 
+            }   
+        })
+    }
+
     return (
-        <Layout title="Sign in" description="Sign in to manage your purchases and account information" className="container py-2">
+        <Layout >
             <p className="text-center lead">No account? <Link to="/signup" className="text-info">Sign up here</Link></p>
+            <p className="text-center lead">To use a mock account and explore site functionality 
+                {' '}
+                <button className="btn btn-info" onClick={mockLogin}>Click here</button>
+            </p>
         <form onSubmit={handleSubmit} onChange={handleChange}>
             
             <div className="row py-5">

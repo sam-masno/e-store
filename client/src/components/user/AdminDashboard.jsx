@@ -10,7 +10,8 @@ const AdminDashboard = ({ user: {name, email, about, _id} }) => {
     
 
     return (
-        <Layout title={name} description={`Welcome back, ${ name }`} className="container">
+        <Layout>
+            <div className="container">
             <div className="row py-5">
                 <div className="col-12 col-md-4">
                     <OrdersLinks />
@@ -21,6 +22,7 @@ const AdminDashboard = ({ user: {name, email, about, _id} }) => {
                     <AccountInformation name={name} email={email} about={about}  />
                     <PurchaseHistory id={_id}/>
                 </div>
+            </div>
             </div>
         </Layout>
     );

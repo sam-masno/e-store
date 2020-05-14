@@ -69,7 +69,7 @@ const ProductPage = ({}) => {
                                 </ul>
                             </div>
                             <div className="card-footer bg-primary">
-                                <AddButton product={product} />
+                                 {quantity > 0 && <AddButton product={product} /> }
                             </div>
                         </div>
                     </div>

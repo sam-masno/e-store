@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 import connectCart from 'components/user/cart/connectCart';
 import requireAuth from 'components/auth/HOCs/requireAuth';
-import { getProduct } from 'services/products';
-
+import Layout from 'components/layout/Layout'
 const Cart = ({ cart: { items, total, count } }) => {
     return (
+        <Layout>
         <div className="card mb-5 col-12 col-md-8 px-0 mx-auto mt-5">
             <div className="card-header">
                 <h3 className="card-title text-danger"> 
@@ -44,6 +44,7 @@ const Cart = ({ cart: { items, total, count } }) => {
                 </ul>
             </div>
         </div>
+        </Layout>
     );
 }
 
