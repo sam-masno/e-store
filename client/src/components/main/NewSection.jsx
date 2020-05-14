@@ -4,7 +4,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { getProducts } from 'services/products';
 //components
 import Product from 'components/main/Product';
-import { Spinner } from 'components/layout/layoutComponents'
+import { Spinner } from 'components/layout/layoutComponents';
+import bgImage from 'components/main/img/image3.jpg';
 
 const Newest = React.memo(({ newest }) => {
     const [products, setProducts] = useState([]);
@@ -31,14 +32,17 @@ const Newest = React.memo(({ newest }) => {
         }
     }
 
-
+    const section = {
+        background: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9) ), url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center'
+    }
 
     return (
-        <section id="new-releases" className="bg-primary">
-            <div className="p-5 bg-primary">
-                <h2 className="text-center text-white" >New Releases</h2>
-            </div>
-            <div className="container">
+        <section id="new-releases" className="bg-primary home-section" style={section}>
+            <div className="container py-5">
+                <h1 className="text-center text-white">New Releases</h1>
                 <div className="row home-section py-5">
                     <Main />
                 </div>
