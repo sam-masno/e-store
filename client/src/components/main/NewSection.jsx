@@ -5,7 +5,7 @@ import { getProducts } from 'services/products';
 //components
 import Product from 'components/main/Product';
 import { Spinner } from 'components/layout/layoutComponents';
-import bgImage from 'components/main/img/image3.jpg';
+import bgImage from 'components/main/img/oppo.jpg';
 
 const Newest = React.memo(({ newest }) => {
     const [products, setProducts] = useState([]);
@@ -33,7 +33,7 @@ const Newest = React.memo(({ newest }) => {
     }
 
     const section = {
-        background: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9) ), url(${bgImage})`,
+        background: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${bgImage})`,
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center'
