@@ -41,40 +41,40 @@ const ProductPage = ({}) => {
         <Layout title={heading.title} description={heading.description} className="">
             <div className="container py-5">
                 <div className="row">
-                    <div className="col col-md-9 mx-auto">
-                        <div className="card h-100 bg-primary">
+                    <div className="col-12 col-md-6">
                             <img src={photo} className="mb-3 card-img-top img-fluid" />
                             {/* <div className="card-image"> */}
-                            {/* </div> */}
-                            <div className="card-body">
+                    </div>
+                    {/* end of img div  */}
+                    <div className="col-12 col-md-6 pt-5">
+                            <div className="">
                                 <h6 className="card-subtitle text-muted">Posted: { moment(createdAt).format('MM/DD/YYYY') }</h6>
                                 <br/>
-                                <ul className="list-group">
-                                    <li className="list-group-item lead">
+                                <ul className="list-unstyled">
+                                    <li className="lead">
                                         Category: { category.name }
                                     </li>
-                                    <li className="list-group-item lead">
+                                    <li className="lead">
                                         Price: <span className="badge badge-success">${ price }</span> 
                                     </li>
-                                    <li className="list-group-item lead">
+                                    <li className="lead">
                                         In Stock: <span className={`badge badge-${quantity > 10 ? "success": "danger"}`}>{ quantity }</span>
                                     </li>
-                                    <li className="list-group-item lead">
+                                    <li className="lead">
                                         Sold: { sold }
                                     </li>
-                                    <li className="list-group-item lead">
+                                    <li className="lead">
                                         Description: <br/>
                                         { description }
                                     </li>
                                 </ul>
                             </div>
-                            <div className="card-footer bg-primary">
+                            <div className="">
                                  {quantity > 0 && <AddButton product={product} /> }
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <SimilarProducts productId={_id} />
         </Layout>
     );
