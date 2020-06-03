@@ -133,7 +133,6 @@ const Checkout = (
                                         <Dropin 
                                             options={{ 
                                                 authorization: clientToken
-                                                
                                             }}
                                             onInstance={ (instance) => setData({...data, instance }) }
                                         />
